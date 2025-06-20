@@ -4,21 +4,27 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase.init";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signInUser = (email, password) => {
+    setLoading(true);
+
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const signOutUser = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -29,6 +35,7 @@ const AuthProvider = ({ children }) => {
         currentUser
       );
       setUser(currentUser);
+      setLoading(false);
     });
 
     return () => {
@@ -39,6 +46,7 @@ const AuthProvider = ({ children }) => {
   const userInfo = {
     // email: "potata@gmail.com",
     user,
+    loading,
     createUser,
     signInUser,
     signOutUser,
