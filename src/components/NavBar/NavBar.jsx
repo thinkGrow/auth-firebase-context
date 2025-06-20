@@ -6,8 +6,18 @@ import { AuthContext } from "../../contexts/AuthContext";
 // import AuthProvider from "../../contexts/AuthProvider";
 
 const NavBar = () => {
-  const { user } = use(AuthContext);
+  const { user, signOutUser } = use(AuthContext);
   console.log(user);
+
+  const handleSignOut = () => {
+    signOutUser()
+      .then(() => {
+        console.log("user logged out");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   // console.log(userInfo);
   const links = (
@@ -57,7 +67,16 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        {user ? <a className="btn">Sign Out</a> : <Link to="/login">Login</Link>}
+        {user ? (
+          <>
+            <span>{user.email}</span>
+            <a onClick={handleSignOut} className="btn">
+              Sign Out
+            </a>
+          </>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </div>
     </div>
   );
