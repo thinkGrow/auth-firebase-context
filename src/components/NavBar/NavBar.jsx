@@ -1,12 +1,13 @@
 import React, { use } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./NavBar.css";
 import { AuthContext } from "../../contexts/AuthContext";
 // import { AuthContext } from "../../contexts/AuthContext";
 // import AuthProvider from "../../contexts/AuthProvider";
 
 const NavBar = () => {
-  // const userInfo = use(AuthContext);
+  const { user } = use(AuthContext);
+  console.log(user);
 
   // console.log(userInfo);
   const links = (
@@ -56,7 +57,7 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? <a className="btn">Sign Out</a> : <Link to="/login">Login</Link>}
       </div>
     </div>
   );
